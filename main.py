@@ -49,7 +49,7 @@ name_publisher = ('Вальтер Скотт', 'Стюард Чейз', "Дж. �
 for i in name_publisher:
     insert_publisher(i)
 
-name_book = (('Айвенго', 1), ('Гарри Поттер и филосовский камень', 3), ('Тирания слов', 2), ('Хоббит', 4))
+name_book = (('Айвенго', 1), ('Гарри Поттер и тайная комната', 3), ('Тирания слов', 2), ('Хоббит', 4), ('Гарри Поттер и филосовский камень', 3))
 for i in name_book:
     insert_book(i[0], i[1])
 
@@ -57,19 +57,26 @@ name_shop = ('Книжный мир', 'Буквоед', "Азбука букв",
 for i in name_shop:
     insert_shop(i)
 
-name_stok = ((1, 1, 10), (2, 2, 10), (3, 3, 200), (4, 4, 10))
+name_stok = ((1, 1, 10), (2, 2, 10), (3, 3, 200), (4, 4, 10), (5, 4, 11))
 for i in name_stok:
     insert_stok(i[0], i[1], i[2])
 
 name_sale = ((750, '2023-09-05', 1, 1), (1250, '2023-09-05', 2, 1),
-             (1000, '2023-09-05', 3, 1),   (1500, '2023-09-05', 4, 1))
+             (1000, '2023-09-05', 3, 1),   (1500, '2023-09-05', 4, 1),   (1250, '2023-09-05', 5, 1))
 for i in name_sale:
     insert_sale(i[0], i[1], i[2], i[3])
 
+print()
+print('Авторы: Вальтер Скотт,     Стюард Чейз,     Дж. К. Роулинг,     Дж. Р. Р. Толкин')
+name_autor = input('Введите имя автора: ')
 
-
-
-
-
+for pub, bo, sh, st, sa in session.query(Publisher, Book, Shop, Stock, Sale)\
+        .filter(Book.id_publisher == Publisher.id)\
+        .filter(Stock.id_shop == Shop.id)\
+        .filter(Stock.id_book == Book.id)\
+        .filter(Sale.id_stock == Stock.id)\
+        .all():
+    if pub.name.upper() == name_autor.upper():
+        print(f'{bo.title} | {sh.name} | {sa.prise} | {sa.date_sale}')
 
 session.close()
