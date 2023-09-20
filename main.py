@@ -76,7 +76,12 @@ for pub, bo, sh, st, sa in session.query(Publisher, Book, Shop, Stock, Sale)\
         .filter(Stock.id_book == Book.id)\
         .filter(Sale.id_stock == Stock.id)\
         .all():
-    if pub.name.upper() == name_autor.upper():
-        print(f'{bo.title} | {sh.name} | {sa.prise} | {sa.date_sale}')
+    try:
+        if pub.name.upper() == name_autor.upper():
+            print(f'{bo.title} | {sh.name} | {sa.prise} | {sa.date_sale}')
+        if pub.id == int(name_autor):
+            print(f'{bo.title} | {sh.name} | {sa.prise} | {sa.date_sale}')
+    except:
+        pass
 
 session.close()
